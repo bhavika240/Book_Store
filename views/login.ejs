@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Read Me</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="min-h-screen bg-[#F7F1EA] text-[#49372D] flex items-center justify-center p-5">
+
+    <div class="w-full max-w-md bg-white rounded-3xl p-8 shadow-lg">
+        <a href="/" class="text-sm text-[#8A6652] hover:underline">← Back to Home</a>
+
+        <h1 class="text-4xl font-serif font-bold mt-6">Admin Login</h1>
+        <p class="text-[#75645A] mt-3">Login to manage your bookstore.</p>
+
+        <% if (error) { %>
+            <p class="mt-5 rounded-xl bg-red-50 text-red-700 p-3">
+                <%= error %>
+            </p>
+        <% } %>
+
+        <form action="/login" method="POST" class="mt-6 space-y-5">
+            <div>
+                <label for="username" class="block mb-2 font-semibold">Username</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    required
+                    autocomplete="username"
+                    class="w-full border border-[#D4C1B2] rounded-xl p-3 outline-none focus:ring-2 focus:ring-[#8A6652]"
+                    placeholder="Enter username">
+            </div>
+
+            <div>
+                <label for="password" class="block mb-2 font-semibold">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                    autocomplete="current-password"
+                    class="w-full border border-[#D4C1B2] rounded-xl p-3 outline-none focus:ring-2 focus:ring-[#8A6652]"
+                    placeholder="Enter password">
+            </div>
+
+            <button
+                type="submit"
+                class="w-full bg-[#654A3C] text-white py-3 rounded-full hover:bg-[#4E382E] transition">
+                Login
+            </button>
+        </form>
+    </div>
+
+</body>
+</html>

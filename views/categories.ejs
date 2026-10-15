@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories | Read Me</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-[#F7F1EA] text-[#49372D]">
+    <%- include('includes/nav.ejs') %>
+
+    <section class="max-w-7xl mx-auto px-6 pt-12 pb-6">
+        <p class="text-sm uppercase tracking-[4px] text-[#9A7763]">
+            Explore Books
+        </p>
+
+        <h1 class="text-4xl md:text-5xl font-serif mt-3">
+            Book Categories
+        </h1>
+
+        <p class="text-[#75645A] mt-4">
+            Find your next favourite book by category.
+        </p>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 py-5">
+        <div class="flex flex-wrap gap-3">
+
+            <a href="/category"
+               class="px-5 py-2.5 rounded-full border border-[#654A3C] bg-[#654A3C] text-white hover:bg-[#4E382E] transition">
+                All
+            </a>
+
+            <% categories.forEach(category => { %>
+                <a href="/category/<%= encodeURIComponent(category) %>"
+                   class="px-5 py-2.5 rounded-full border border-[#D4C1B2] bg-white text-[#49372D] hover:bg-[#E9DCD1] transition">
+                    <%= category %>
+                </a>
+            <% }) %>
+
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 pt-6">
+        <p class="text-sm text-[#75645A]">
+            Showing <%= books.length %> book(s)
+        </p>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 py-6 pb-16">
+
+        <% if (books.length === 0) { %>
+
+            <div class="bg-[#E9DCD1] rounded-3xl p-10 text-center">
+                <h2 class="text-2xl font-serif">No books found</h2>
+
+                <p class="text-[#75645A] mt-3">
+                    There are no books in this category yet.
+                </p>
+
+                <a href="/books"
+                   class="inline-block mt-6 bg-[#654A3C] text-white px-6 py-3 rounded-full hover:bg-[#4E382E] transition">
+                    Explore All Books
+                </a>
+            </div>
+
+        <% } else { %>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7">
+
+                <% books.forEach(book => { %>
+
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition">
+
+                        <img
+                            src="<%= book.image %>"
+                            alt="<%= book.title %>"
+                            loading="lazy"
+                            class="w-full h-72 object-cover"
+                            onerror="this.style.display='none'">
+
+                        <div class="p-5">
+
+                            <p class="text-xs uppercase tracking-wider text-[#9A7763]">
+                                <%= book.category %>
+                            </p>
+
+                            <h2 class="text-xl font-bold mt-2">
+                                <%= book.title %>
+                            </h2>
+
+                            <p class="text-[#75645A] mt-2">
+                                Author: <%= book.author %>
+                            </p>
+
+                            <p class="text-xl font-bold text-[#654A3C] mt-4">
+                                ₹<%= book.price %>
+                            </p>
+
+                            <button
+                                type="button"
+                                class="mt-4 w-full bg-[#654A3C] text-white py-3 rounded-full hover:bg-[#4E382E] transition"
+                                data-id="<%= book._id %>"
+                                data-title="<%= book.title %>"
+                                data-price="<%= book.price %>"
+                                data-image="<%= book.image %>"
+                                onclick="addToCart(this)">
+                                🛒 Add to Cart
+                            </button>
+
+                            <% if (isAdmin === true) { %>
+
+                                <div class="flex gap-3 mt-3">
+
+                                    <a href="/books/edit/<%= book._id %>"
+                                       class="flex-1 text-center bg-[#8064A2] text-white py-2.5 rounded-full hover:bg-[#403447] transition">
+                                         Update
+                                    </a>
+
+                                    <form
+                                        action="/books/delete/<%= book._id %>"
+                                        method="POST"
+                                        class="flex-1"
+                                        onsubmit="return confirm('Are you sure you want to delete this book?')">
+
+                                        <button
+                                            type="submit"
+                                            class="w-full border border-red-300 bg-red-50 text-red-700 py-2.5 rounded-full hover:bg-red-100 transition">
+                                             Delete
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            <% } %>
+
+                        </div>
+                    </div>
+
+                <% }) %>
+
+            </div>
+
+        <% } %>
+
+    </section>
+
+    <%- include('includes/footer.ejs') %>
+</body>
+</html>

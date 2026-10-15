@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation | Read Me</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#F7F1EA] text-[#49372D] min-h-screen flex items-center justify-center p-6">
+
+    <div class="bg-white rounded-3xl shadow-lg p-8 md:p-12 max-w-xl w-full text-center">
+
+        <div class="text-6xl mb-5">✓</div>
+
+        <h1 class="text-3xl md:text-4xl font-bold mb-4">
+            Order Confirmed!
+        </h1>
+
+        <p class="text-lg mb-6">
+            Thank you for shopping with Read Me.
+        </p>
+
+        <% if (typeof order !== 'undefined' && order) { %>
+
+            <div class="bg-[#F7F1EA] rounded-2xl p-5 text-left mb-6">
+                <p class="font-semibold mb-3">
+                    Order ID:
+                    <span class="break-all"><%= order._id %></span>
+                </p>
+
+                <h2 class="text-xl font-bold mb-3">Your Books</h2>
+
+                <% order.items.forEach(function(item) { %>
+                    <div class="flex justify-between gap-4 py-2 border-b border-[#D4C1B2]">
+                        <div>
+                            <p class="font-semibold"><%= item.title %></p>
+                            <p class="text-sm">Quantity: <%= item.quantity %></p>
+                        </div>
+
+                        <p class="font-semibold whitespace-nowrap">
+                            ₹<%= item.price * item.quantity %>
+                        </p>
+                    </div>
+                <% }) %>
+
+                <p class="text-xl font-bold mt-4">
+                    Total: ₹<%= order.total %>
+                </p>
+            </div>
+
+        <% } %>
+
+        <a href="/books"
+           class="inline-block bg-[#49372D] text-white px-8 py-3 rounded-full hover:bg-[#35271F] transition">
+            Continue Shopping
+        </a>
+
+        <p class="text-sm mt-5 text-gray-500">
+            Happy Reading!
+        </p>
+
+    </div>
+
+</body>
+</html>

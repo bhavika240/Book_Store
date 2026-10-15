@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books | Read Me</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style>
+        .book-cover {
+            width: 100%;
+            height: 280px;
+            object-fit: contain;
+            background: #F7F1EA;
+            padding: 12px;
+            display: block;
+        }
+
+        .book-card {
+            min-width: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-details {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body class="bg-[#F7F1EA] text-[#49372D]">
+
+    <%- include('includes/nav.ejs') %>
+    <section class="max-w-6xl mx-auto px-6 pt-12 pb-10">
+        <div class="flex flex-col md:flex-row justify-between md:items-center gap-6">
+            <div>
+                <p class="text-sm uppercase tracking-[4px] text-[#9A7763]">
+                    Our Collection </p>
+
+                <h1 class="text-4xl md:text-5xl font-serif mt-2">
+                    All Books </h1>
+
+                <p class="text-[#75645A] mt-3">
+                    Explore our collection of books. </p>
+            </div>
+
+            <a href="#add-book"
+               class="inline-block text-center bg-[#654A3C] text-white px-6 py-3 rounded-full hover:bg-[#4E382E] transition">
+                + Add New Book</a>
+        </div>
+    </section>
+    <section class="max-w-6xl mx-auto px-6 pb-16">
+
+        <% if (books.length === 0) { %>
+            <div class="bg-[#E9DCD1] rounded-3xl p-10 text-center">
+                <p class="text-xl font-serif">No books available yet.</p>
+                <p class="text-[#75645A] mt-2">
+                    Add your first book below.
+                </p>
+            </div>
+
+        <% } else { %>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-stretch">
+
+                <% books.forEach(book => { %>
+
+                    <div class="book-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition">
+                        <img
+                            src="<%= book.image %>"
+                            alt="<%= book.title %>"
+                            class="book-cover"
+                            loading="lazy"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x500/F7F1EA/654A3C?text=Book+Cover';"
+                        >
+                        <div class="book-details p-5">
+
+                            <p class="text-xs uppercase tracking-wider text-[#9A7763]">
+                                <%= book.category %> </p>
+
+                            <h2 class="text-xl font-bold mt-2 break-words">
+                                <%= book.title %> </h2>
+
+                            <p class="text-[#75645A] mt-2">
+                                by <%= book.author %> </p>
+
+                            <p class="text-lg font-bold text-[#654A3C] mt-4">
+                                ₹<%= book.price %> </p>
+<button
+    type="button"
+    class="add-to-cart-btn w-full mt-4 bg-[#654A3C] text-white py-2.5 rounded-full hover:bg-[#4E382E] transition"
+    data-id="<%= book._id %>"
+    data-title="<%= book.title %>"
+    data-price="<%= book.price %>"
+     data-image="<%= book.image %>"
+    onclick="addToCart(this)">
+    Add to Cart
+</button>
+
+                  <% if (isAdmin) { %>
+                
+         <% } %>
+
+          </div>
+      </div>
+ <% }) %>
+
+            </div>
+
+        <% } %>
+    </section>
+    <section id="add-book" class="bg-[#E9DCD1] py-14">
+
+        <div class="max-w-3xl mx-auto px-6">
+
+            <div class="text-center mb-8">
+                <p class="text-sm uppercase tracking-[4px] text-[#9A7763]">
+                    Add to Collection</p>
+
+                <h2 class="text-3xl md:text-4xl font-serif mt-2">
+                    Add New Book</h2>
+
+                <p class="text-[#75645A] mt-3"> Enter the details of your new book. </p>
+            </div>
+
+            <form action="/books/add" method="POST"
+                  class="bg-[#F7F1EA] rounded-3xl p-8 shadow-sm">
+
+                <div class="mb-5">
+                    <label class="block font-semibold mb-2">
+                        Book Title
+                    </label>
+
+                    <input type="text"
+                           name="title"
+                           placeholder="Enter book title"
+                           required
+                           class="w-full px-4 py-3 rounded-xl border border-[#D4C1B2] bg-white outline-none focus:border-[#8A6652]">
+                </div>
+
+                <div class="mb-5">
+                    <label class="block font-semibold mb-2">
+                        Author
+                    </label>
+
+                    <input type="text"
+                           name="author"
+                           placeholder="Enter author name"
+                           required
+                           class="w-full px-4 py-3 rounded-xl border border-[#D4C1B2] bg-white outline-none focus:border-[#8A6652]">
+                </div>
+
+                <div class="mb-5">
+                    <label class="block font-semibold mb-2">
+                        Category
+                    </label>
+
+                    <input type="text"
+                           name="category"
+                           placeholder="Enter book category"
+                           required
+                           class="w-full px-4 py-3 rounded-xl border border-[#D4C1B2] bg-white outline-none focus:border-[#8A6652]">
+                </div>
+
+                <div class="mb-5">
+                    <label class="block font-semibold mb-2">
+                        Price
+                    </label>
+
+                    <input type="number"
+                           name="price"
+                           min="0"
+                           placeholder="Enter price"
+                           required
+                           class="w-full px-4 py-3 rounded-xl border border-[#D4C1B2] bg-white outline-none focus:border-[#8A6652]">
+                </div>
+
+                <div class="mb-7">
+                    <label class="block font-semibold mb-2">
+                        Book Image URL
+                    </label>
+
+                    <input type="url"
+                           name="image"
+                           placeholder="Paste book image URL"
+                           required
+                           class="w-full px-4 py-3 rounded-xl border border-[#D4C1B2] bg-white outline-none focus:border-[#8A6652]">
+                </div>
+
+                <button type="submit"
+                        class="w-full bg-[#654A3C] text-white py-3 rounded-full hover:bg-[#4E382E] transition">
+                    Add Book
+                </button>
+
+            </form>
+        </div>
+    </section>
+
+    <%- include('includes/footer.ejs') %>
+
+    <!-- <script>
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const title = button.dataset.title;
+                const price = button.dataset.price;
+
+                alert(`${title} - ₹${price}\nCart functionality can be connected here.`);
+            });
+        });
+    </script> -->
+
+</body>
+</html>

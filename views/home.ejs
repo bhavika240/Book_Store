@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Read Me | Home</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-[#F7F1EA] text-[#49372D]">
+
+    <%- include('includes/nav.ejs') %>
+    <section class="max-w-6xl mx-auto px-6 py-16">
+
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+
+                <p class="text-sm uppercase tracking-[4px] text-[#9A7763] mb-5">
+                    Welcome to Read Me </p>
+
+                <h1 class="text-5xl md:text-6xl font-serif leading-tight">
+                    Find your next
+                    <span class="italic text-[#8A6652]">  favourite book. </span>
+                </h1>
+
+                <p class="text-[#75645A] mt-6 leading-7 max-w-md">
+                    Explore stories, ideas and books that inspire you,
+                    all in one place.  </p>
+
+                <a href="/books"
+                   class="inline-block mt-7 bg-[#654A3C] text-white
+                          px-7 py-3 rounded-full hover:bg-[#4E382E] transition">
+                    Explore Books →
+                </a>
+            </div>
+
+            <div>
+
+                <img
+                    src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=900&q=85"
+                    alt="Bookstore"
+                    class="w-full h-[430px] object-cover rounded-[30px] shadow-lg" >
+            </div>
+        </div>
+
+    </section>
+
+    <section class="bg-[#E9DCD1] py-12">
+
+        <div class="max-w-4xl mx-auto text-center px-6">
+            <h2 class="text-3xl font-serif">
+                A little place for every reader. </h2>
+
+            <p class="text-[#75645A] mt-3">
+                Discover. Read. Learn. Enjoy.   </p>
+
+        </div>
+    </section>
+    <%- include('includes/footer.ejs') %>
+
+</body>
+</html>

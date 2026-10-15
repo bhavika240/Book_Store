@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Read Me</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-[#F7F1EA] text-[#49372D]">
+    <%- include('includes/nav.ejs') %>
+
+    <main class="max-w-6xl mx-auto px-6 py-16">
+
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+
+                <p class="text-sm uppercase tracking-[4px] text-[#9A7763] mb-5"> Get in Touch </p>
+
+                <h1 class="text-5xl md:text-6xl font-serif leading-tight">
+                    We'd love to
+                    <span class="italic text-[#8A6652]">
+                        hear from you. </span>
+                      </h1>
+
+                <p class="text-[#75645A] text-lg leading-8 mt-6 max-w-md">
+                    Have a question about a book or need some help? Send us a message and we'll be happy to hear from you. </p>
+                <div class="mt-8 space-y-5">
+                    <div class="flex items-center gap-4">
+
+                        <div class="w-11 h-11 rounded-full bg-[#E9DCD1]
+                                    flex items-center justify-center text-xl"> ✉ </div>
+
+                        <div>
+                            <p class="font-semibold">Email</p>
+                            <p class="text-[#75645A] text-sm">  readme123@gmail.com </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+
+                        <div class="w-11 h-11 rounded-full bg-[#E9DCD1]
+                                    flex items-center justify-center text-xl"> 📚 </div>
+                        <div>
+                            <p class="font-semibold">Read. Discover. Enjoy.</p>
+                            <p class="text-[#75645A] text-sm">
+                                We're always happy to connect. </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="bg-[#E9DCD1] rounded-3xl p-8 md:p-10 shadow-sm">
+
+                <h2 class="text-2xl font-serif mb-6">
+                    Send us a message </h2>
+                <form action="#" method="POST">
+                    <div class="mb-5">
+
+                        <label class="block font-semibold mb-2"> Name</label>
+
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Enter your name"
+                            required
+                            class="w-full bg-[#F7F1EA] border border-[#D4C1B2]
+                                   rounded-xl px-4 py-3
+                                   focus:outline-none focus:border-[#8A6652]">
+                    </div>
+
+                    <div class="mb-5">
+                        <label class="block font-semibold mb-2"> Email </label>
+
+             <input
+                 type="email"
+                name="email"
+               placeholder="Enter your email"
+                  required
+                 class="w-full bg-[#F7F1EA] border border-[#D4C1B2]
+                  rounded-xl px-4 py-3
+                focus:outline-none focus:border-[#8A6652]">
+                    </div>
+               <div class="mb-5">
+
+             <label class="block font-semibold mb-2"> Subject </label>
+                    <input
+                     type="text"
+                     name="subject"
+                     placeholder="Enter subject"
+                     required
+                     class="w-full bg-[#F7F1EA] border border-[#D4C1B2]
+                      rounded-xl px-4 py-3
+                      focus:outline-none focus:border-[#8A6652]">
+                    </div>
+                    <div class="mb-6">
+
+                        <label class="block font-semibold mb-2">  Message</label>
+                        <textarea
+                            name="message"
+                            rows="5"
+                            placeholder="Write your message here..."
+                            required
+                            class="w-full bg-[#F7F1EA] border border-[#D4C1B2]
+                            rounded-xl px-4 py-3
+                           focus:outline-none focus:border-[#8A6652]"></textarea>
+                    </div>
+                    <button
+                        type="submit"
+                        class="w-full bg-[#654A3C] text-white
+                               font-semibold py-3 rounded-full
+                               hover:bg-[#4E382E] transition">
+
+                        Send Message →
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+    </main>
+
+    <section class="bg-[#E9DCD1] py-10 text-center">
+        <p class="text-2xl font-serif italic text-[#654A3C]">
+            "Every reader has a story to share." </p>
+
+    </section>
+    <%- include('includes/footer.ejs') %>
+
+</body>
+</html>

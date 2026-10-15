@@ -1,0 +1,301 @@
+
+<nav>
+    <div class="bg-[#F7F1EA] text-[#49372D] flex items-center justify-between flex-wrap gap-4 px-6 md:px-12 py-4 shadow-sm">
+        <a href="/" class="text-2xl font-bold">Read Me</a>
+
+        <div class="flex items-center flex-wrap gap-4 md:gap-8 text-sm md:text-lg font-semibold">
+            <a href="/" class="hover:text-[#8A6652]">Home</a>
+            <a href="/books" class="hover:text-[#8A6652]">Books</a>
+            <a href="/category" class="hover:text-[#8A6652]">Categories</a>
+            <a href="/about" class="hover:text-[#8A6652]">About</a>
+            <a href="/contact" class="hover:text-[#8A6652]">Contact</a>
+
+            <% if (isAdmin) { %>
+                <form action="/logout" method="POST" class="inline">
+                    <button type="submit"
+                        class="bg-[#654A3C] text-white px-5 py-2 rounded-full hover:bg-[#4E382E] transition">
+                        Logout
+                    </button>
+                </form>
+            <% } else { %>
+                <a href="/login"
+                    class="bg-[#654A3C] text-white px-5 py-2 rounded-full hover:bg-[#4E382E] transition">
+                    Login
+                </a>
+            <% } %>
+
+            <button type="button" onclick="toggleCart()"
+                class="relative text-2xl hover:text-[#8A6652]"
+                aria-label="Open cart">
+                🛒
+                <span id="navbar-cart-count"
+                    class="absolute -top-2 -right-3 bg-[#654A3C] text-white text-xs rounded-full min-w-5 h-5 px-1 flex items-center justify-center">
+                    0
+                </span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<div id="cart-panel"
+    class="hidden fixed inset-0 z-50 bg-black/40"
+    onclick="if(event.target === this) toggleCart()">
+
+    <div class="absolute inset-0 h-full w-full overflow-y-auto bg-[#F7F2EA] p-6 md:p-10 shadow-xl">
+
+        <div class="flex items-center justify-between">
+            <h2 class="text-3xl font-serif">My Cart</h2>
+            <button type="button" onclick="toggleCart()"
+                class="text-2xl text-[#654A3C]" aria-label="Close cart">✕</button>
+        </div>
+
+        <div id="cart-items" class="mt-6 space-y-4"></div>
+
+        <div class="mt-6 border-t border-[#D4C1B2] pt-5">
+            <p class="text-xl font-bold">
+                Total: ₹<span id="cart-total">0</span>
+            </p>
+        </div>
+
+        <button
+            type="button"
+            onclick="buyNow()"
+            class="mt-5 w-full bg-[#49372D] text-white px-6 py-3 rounded-full hover:bg-[#35271F] transition">
+            Buy Now
+        </button>
+    </div>
+</div>
+
+<script>
+    function readCart() {
+        try {
+            const saved = JSON.parse(
+                localStorage.getItem('readMeCart') || '[]'
+            );
+            return Array.isArray(saved) ? saved : [];
+        } catch (error) {
+            return [];
+        }
+    }
+
+    let cart = readCart();
+
+    function saveCart() {
+        localStorage.setItem('readMeCart', JSON.stringify(cart));
+        renderCart();
+    }
+
+    function updateNavbarCartCount() {
+        cart = readCart();
+
+        const count = cart.reduce(
+            (sum, item) => sum + Number(item.quantity || 0),
+            0
+        );
+
+        const counter = document.getElementById('navbar-cart-count');
+
+        if (counter) {
+            counter.textContent = count;
+        }
+    }
+
+    async function buyNow() {
+        cart = readCart();
+
+        if (cart.length === 0) {
+            alert('Your cart is empty. Please add a book first.');
+            return;
+        }
+
+        const button = document.querySelector(
+            '#cart-panel button[onclick="buyNow()"]'
+        );
+
+        if (button) {
+            button.disabled = true;
+            button.textContent = 'Processing...';
+        }
+
+        try {
+            const response = await fetch('/cart/buy-from-panel', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ items: cart })
+            });
+
+            const result = await response.json();
+
+            if (!response.ok || !result.redirect) {
+                throw new Error(
+                    result.message || 'Could not place your order.'
+                );
+            }
+
+            localStorage.removeItem('readMeCart');
+
+            window.location.href = result.redirect;
+
+        } catch (error) {
+            console.error('Buy Now error:', error);
+
+            alert(
+                error.message || 'Something went wrong. Please try again.'
+            );
+
+            if (button) {
+                button.disabled = false;
+                button.textContent = 'Buy Now';
+            }
+        }
+    }
+
+    function addToCart(button) {
+        const id = button.dataset.id;
+        const existing = cart.find(item => item.id === id);
+        const imageUrl = button.dataset.image || '';
+
+        if (existing) {
+            existing.quantity++;
+
+            if (imageUrl) {
+                existing.image = imageUrl;
+            }
+        } else {
+            cart.push({
+                id: id,
+                title: button.dataset.title,
+                price: Number(button.dataset.price),
+                image: imageUrl,
+                quantity: 1
+            });
+        }
+
+        saveCart();
+        alert(button.dataset.title + ' added to cart!');
+    }
+
+    function toggleCart() {
+        const panel = document.getElementById('cart-panel');
+
+        if (!panel) return;
+
+        panel.classList.toggle('hidden');
+        renderCart();
+    }
+
+    function changeQuantity(id, amount) {
+        const item = cart.find(book => book.id === id);
+
+        if (!item) return;
+
+        item.quantity += amount;
+
+        if (item.quantity <= 0) {
+            cart = cart.filter(book => book.id !== id);
+        }
+
+        saveCart();
+    }
+
+    function removeFromCart(id) {
+        cart = cart.filter(item => item.id !== id);
+        saveCart();
+    }
+
+    function renderCart() {
+        cart = readCart();
+
+        const container = document.getElementById('cart-items');
+        const totalElement = document.getElementById('cart-total');
+
+        updateNavbarCartCount();
+
+        if (!container || !totalElement) return;
+
+        container.replaceChildren();
+
+        if (cart.length === 0) {
+            const message = document.createElement('p');
+            message.className = 'text-[#655873] text-center py-10';
+            message.textContent = 'Your cart is empty. Add some books!';
+            container.appendChild(message);
+            totalElement.textContent = '0';
+            return;
+        }
+
+        let total = 0;
+
+        cart.forEach(item => {
+            const priceValue = Number(item.price) || 0;
+            const quantityValue = Number(item.quantity) || 0;
+
+            total += priceValue * quantityValue;
+
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-2xl p-4 flex flex-col sm:flex-row gap-5 items-start shadow-sm';
+
+            const image = document.createElement('img');
+            image.alt = item.title;
+            image.className = 'w-28 h-36 object-contain rounded-lg bg-[#F7F2EA] shrink-0';
+
+            if (item.image) {
+                image.src = item.image;
+            } else {
+                image.src = 'https://placehold.co/200x280/F7F2EA/8064A2?text=Book+Cover';
+            }
+
+            const details = document.createElement('div');
+            details.className = 'flex-1 min-w-0 w-full';
+
+            const title = document.createElement('h3');
+            title.className = 'font-bold text-lg text-[#403447]';
+            title.textContent = item.title;
+
+            const price = document.createElement('p');
+            price.className = 'text-[#8064A2] mt-1';
+            price.textContent = '₹' + priceValue + ' each';
+
+            const controls = document.createElement('div');
+            controls.className = 'flex items-center gap-3 mt-4 flex-wrap';
+
+            const minus = document.createElement('button');
+            minus.type = 'button';
+            minus.className = 'px-3 py-1 rounded-full bg-[#E5D9F2] text-[#403447]';
+            minus.textContent = '−';
+            minus.onclick = () => changeQuantity(item.id, -1);
+
+            const quantity = document.createElement('span');
+            quantity.textContent = quantityValue;
+
+            const plus = document.createElement('button');
+            plus.type = 'button';
+            plus.className = 'px-3 py-1 rounded-full bg-[#E5D9F2] text-[#403447]';
+            plus.textContent = '+';
+            plus.onclick = () => changeQuantity(item.id, 1);
+
+            const subtotal = document.createElement('span');
+            subtotal.className = 'sm:ml-auto font-bold text-[#403447]';
+            subtotal.textContent = '₹' + (priceValue * quantityValue);
+
+            controls.append(minus, quantity, plus, subtotal);
+
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.className = 'text-sm text-red-700 mt-3 underline';
+            remove.textContent = 'Remove book';
+            remove.onclick = () => removeFromCart(item.id);
+
+            details.append(title, price, controls, remove);
+            card.append(image, details);
+            container.appendChild(card);
+        });
+
+        totalElement.textContent = total;
+    }
+
+    updateNavbarCartCount();
+    renderCart();
+</script>

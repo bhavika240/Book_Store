@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Book | Read Me</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-[#F7F1EA] text-[#49372D]">
+
+    <%- include('includes/nav.ejs') %>
+
+    <div class="max-w-2xl mx-auto px-6 py-12">
+        <h1 class="text-4xl font-serif mb-6">Update Book</h1>
+
+        <form action="/books/update/<%= book._id %>" method="POST"
+              class="bg-white rounded-2xl p-6 shadow space-y-4">
+
+            <div>
+                <label class="block mb-2 font-semibold">Book Title</label>
+                <input type="text" name="title" value="<%= book.title %>"
+                       required class="w-full border rounded-lg p-3">
+            </div>
+
+            <div>
+                <label class="block mb-2 font-semibold">Author</label>
+                <input type="text" name="author" value="<%= book.author %>"
+                       required class="w-full border rounded-lg p-3">
+            </div>
+
+            <div>
+                <label class="block mb-2 font-semibold">Category</label>
+                <input type="text" name="category" value="<%= book.category %>"
+                       required class="w-full border rounded-lg p-3">
+            </div>
+
+            <div>
+                <label class="block mb-2 font-semibold">Price</label>
+                <input type="number" name="price" value="<%= book.price %>"
+                       required min="0" class="w-full border rounded-lg p-3">
+            </div>
+
+            <div>
+                <label class="block mb-2 font-semibold">Book Image URL</label>
+                <input type="text" name="image" value="<%= book.image %>"
+                       required class="w-full border rounded-lg p-3">
+            </div>
+
+            <button type="submit"
+                    class="w-full bg-[#654A3C] text-white py-3 rounded-full hover:bg-[#4E382E]">
+                Save Changes
+            </button>
+
+            <a href="/books" class="block text-center underline">Cancel</a>
+        </form>
+    </div>
+
+    <%- include('includes/footer.ejs') %>
+</body>
+</html>

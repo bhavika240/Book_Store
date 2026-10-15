@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>About - Read Me</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-[#F7F1EA] text-[#49372D]">
+
+    <%- include('includes/nav.ejs') %>
+    <section class="max-w-6xl mx-auto px-6 py-16">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+
+                <p class="text-sm uppercase tracking-[4px] text-[#9A7763] mb-5">
+                    About Read Me </p>
+
+                <h1 class="text-5xl md:text-6xl font-serif leading-tight">  A place for
+                    <span class="italic text-[#8A6652]">
+                        book lovers.</span>
+                </h1>
+
+                <p class="text-[#75645A] mt-6 leading-8 text-lg">
+                    Read Me is a simple online bookstore created for readers who love discovering new stories, ideas
+                    and knowledge. </p>
+
+                <p class="text-[#75645A] mt-4 leading-7">
+                    Our aim is to make exploring books easy, enjoyable and inspiring — all in one beautiful place. </p>
+            </div>
+            <div>
+
+                <img
+                    src="https://images.unsplash.com/photo-1526243741027-444d633d7365?auto=format&fit=crop&w=900&q=85"
+                    alt="Books in a bookstore"
+                    class="w-full h-[420px] object-cover rounded-[30px] shadow-lg">
+
+            </div>
+        </div>
+
+    </section>
+    <section class="bg-[#E9DCD1] py-14">
+
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-10">
+                <p class="text-sm uppercase tracking-[4px] text-[#9A7763]">    Why Read Me</p>
+
+                <h2 class="text-3xl md:text-4xl font-serif mt-2">
+                    Made for every reader.</h2>
+
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-[#F7F1EA] p-7 rounded-2xl text-center">
+
+                    <div class="text-4xl mb-4">  📚</div>
+
+                    <h3 class="text-xl font-bold"> Wide Collection </h3>
+                    <p class="text-[#75645A] mt-3 leading-6">
+                        Explore books from different categories
+                        and discover something new. </p>
+
+                </div>
+                <div class="bg-[#F7F1EA] p-7 rounded-2xl text-center">
+
+                    <div class="text-4xl mb-4"> 🔎 </div>
+
+                    <h3 class="text-xl font-bold"> Easy to Explore</h3>
+
+                    <p class="text-[#75645A] mt-3 leading-6">
+                        Browse books and categories in a simple
+                        and easy-to-use way. </p>
+                </div>
+                <div class="bg-[#F7F1EA] p-7 rounded-2xl text-center">
+
+                    <div class="text-4xl mb-4"> 🤎  </div>
+
+                    <h3 class="text-xl font-bold"> For Readers </h3>
+
+                    <p class="text-[#75645A] mt-3 leading-6">
+                        A cozy little space created for people
+                        who simply love books.  </p>
+
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+    <section class="max-w-4xl mx-auto px-6 py-16 text-center">
+
+        <h2 class="text-3xl md:text-4xl font-serif italic leading-relaxed">
+            Every book opens a door to a different world. </h2>
+
+        <p class="text-sm uppercase tracking-[3px] text-[#9A7763] mt-5"> Read • Discover • Grow </p>
+    </section>
+    <%- include('includes/footer.ejs') %>
+
+</body>
+</html>

@@ -49,7 +49,7 @@ function requireAdmin(req, res, next) {
     res.redirect('/login');
 }
 
-mongoose.connect('mongodb://127.0.0.1:27017/bookstore')
+mongoose.connect('mongodb://bhavika:bG6wcVo0pA13KmED@ac-xokuw4v-shard-00-00.apkkepj.mongodb.net:27017,ac-xokuw4v-shard-00-01.apkkepj.mongodb.net:27017,ac-xokuw4v-shard-00-02.apkkepj.mongodb.net:27017/?ssl=true&replicaSet=atlas-lr0ndf-shard-0&authSource=admin')
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.log(err));
 
